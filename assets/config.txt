@@ -1,0 +1,5 @@
+base.url: http://10.1.12/drupal/rest
+section.1: Front
+section.2: Blog
+section.3: Forum
+section.4: User
