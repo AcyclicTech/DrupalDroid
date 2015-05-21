@@ -20,7 +20,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.acyclictech.drupaljava.services.json.PostJsonObject;
+import com.acyclictech.drupaljava.services.json.JsonUtilities;
+import com.acyclictech.drupaljava.services.json.objects.NodeListJsonObject;
 
 public class MainActivity extends Activity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -140,10 +141,10 @@ public class MainActivity extends Activity implements
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			String testMessage = "[{'nid':'2','vid':'2','type':'blog','language':'und','title':'Linux','uid':'1','status':'1','created':'1428289127','changed':'1428290484','comment':'2','promote':'1','sticky':'0','tnid':'0','translate':'0','uri':'http://192.168.56.1/drupal7/rest/node/2'},{'nid':'1','vid':'1','type':'blog','language':'und','title':'Page 1','uid':'1','status':'1','created':'1428287496','changed':'1428287496','comment':'2','promote':'1','sticky':'0','tnid':'0','translate':'0','uri':'http://192.168.56.1/drupal7/rest/node/1'}]";
-			JSONArray jobj = PostJsonObject.parseObj(testMessage);
-			Map<String, String> data = PostJsonObject.parseNodes(jobj);
+			JSONArray jsonObj = JsonUtilities.parseArrayObj(testMessage);
+			Map<String, String> data = NodeListJsonObject.parseNodes(jsonObj);
 			List<String> names = new ArrayList<String>(data.values());
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, names);
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.node_item, names);
 			
 			View rootView = inflater.inflate(R.layout.fragment_main, container,
 					false);
