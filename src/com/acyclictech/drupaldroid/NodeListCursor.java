@@ -10,7 +10,7 @@ public class NodeListCursor extends AbstractCursor {
 
 	private List<NodeJsonObject> list;
 	private String[] names;
-
+//test
 	public NodeListCursor(List<NodeJsonObject> data){
 		this.list = data;
 		names = list.get(0).getNames().toArray(new String[0]);
