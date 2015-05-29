@@ -1,8 +1,6 @@
 package com.acyclictech.drupaldroid;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.json.JSONArray;
 
@@ -19,8 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import com.acyclictech.drupaljava.services.json.JsonUtilities;
+import com.acyclictech.drupaljava.services.json.objects.NodeJsonObject;
 import com.acyclictech.drupaljava.services.json.objects.NodeListJsonObject;
 
 public class MainActivity extends Activity implements
@@ -142,9 +142,15 @@ public class MainActivity extends Activity implements
 				Bundle savedInstanceState) {
 			String testMessage = "[{'nid':'2','vid':'2','type':'blog','language':'und','title':'Linux','uid':'1','status':'1','created':'1428289127','changed':'1428290484','comment':'2','promote':'1','sticky':'0','tnid':'0','translate':'0','uri':'http://192.168.56.1/drupal7/rest/node/2'},{'nid':'1','vid':'1','type':'blog','language':'und','title':'Page 1','uid':'1','status':'1','created':'1428287496','changed':'1428287496','comment':'2','promote':'1','sticky':'0','tnid':'0','translate':'0','uri':'http://192.168.56.1/drupal7/rest/node/1'}]";
 			JSONArray jsonObj = JsonUtilities.parseArrayObj(testMessage);
-			Map<String, String> data = NodeListJsonObject.parseNodes(jsonObj);
-			List<String> names = new ArrayList<String>(data.values());
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.node_item, names);
+			NodeListJsonObject nodeList = new NodeListJsonObject(jsonObj); 
+			List<NodeJsonObject> data = nodeList.getNodes();
+			NodeListCursor cursor = new NodeListCursor(data);
+
+			String[] fromColumns = {NodeJsonObject.TITLE, NodeJsonObject.NID};
+			int[] toViews = {R.id.nodeTitle, R.id.nodeBody};			
+			
+			SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),
+			        R.layout.node_item, cursor, fromColumns, toViews, 0);
 			
 			View rootView = inflater.inflate(R.layout.fragment_main, container,
 					false);
